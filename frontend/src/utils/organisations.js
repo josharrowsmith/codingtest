@@ -8,19 +8,23 @@ export const getOrg = async (token, id) => {
             "Content-Type": "application/json"
         }
     });
-    const result = response.data.filter(function(a){ return a.id == id })[0]
+    const result = response.data.filter(function (a) { return a.id == id })[0]
     return result;
 };
 
 export const getAllOrgs = async (token) => {
-    const response = await axios(`${apiEndpoint}/organisations`, {
-        headers: {
-            "Authorization": token,
-            "Content-Type": "application/json"
-        }
-    });
+    try {
+        const response = await axios(`${apiEndpoint}/organisations`, {
+            headers: {
+                "Authorization": token,
+                "Content-Type": "application/json"
+            }
+        });
+        return response.data
+    } catch (err) {
+        return err.response.error;
+    }
 
-    return response.data
 };
 
 export const createOrgs = async (data) => {

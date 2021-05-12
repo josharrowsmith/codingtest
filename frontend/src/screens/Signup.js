@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 
 export default function Signup() {
   const history = useHistory();
-  const { register, handleSubmit, errors, watch } = useForm();
+  const { register, handleSubmit, formState: { errors }, watch } = useForm();
   const password = useRef({});
   password.current = watch("password", "");
   const { signup, isAuth } = useAuth();
@@ -31,6 +31,7 @@ export default function Signup() {
 
 
   console.log(errors)
+
   return (
     <Container>
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -39,19 +40,33 @@ export default function Signup() {
         <Input
           label="Name"
           name="name"
-          {...register("name")}
+          {...register("name", {
+            required: "You must specify a Name",
+            minLength: {
+              value: 3,
+              message: "name must have at least 3 characters"
+            }
+          })}
         />
+        {errors.name && errors.name.message}
         <Label>Email</Label>
         <Input
           label="Email"
           name="email"
-          {...register("email")}
+          {...register("email", {
+            required: "You must specify a Email",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "invalid email address"
+            }
+          })}
         />
+        {errors.email && errors.email.message}
         <Label>Password</Label>
         <Input
           name="password"
           type="password"
-          {...register("password",{
+          {...register("password", {
             required: "You must specify a password",
             minLength: {
               value: 8,
@@ -59,17 +74,17 @@ export default function Signup() {
             }
           })}
         />
-        {errors && <p>{errors.password.message}</p>}
+        {errors.password && "password is required"}
         <Label>Password confirm</Label>
         <Input
           name="passwordConfirmation"
           type="password"
-          {...register("passwordConfirmation",{
+          {...register("passwordConfirmation", {
             validate: value =>
               value === password.current || "The passwords do not match"
           })}
         />
-        {errors && <p>{errors.passwordConfirmation.message}</p>}
+        {errors.passwordConfirmation && errors.passwordConfirmation.message}
         <Button
           variant="contained"
           color="primary"

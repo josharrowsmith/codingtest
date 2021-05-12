@@ -7,10 +7,10 @@ import { useHistory } from "react-router-dom";
 
 export default function Login() {
   const history = useHistory();
-  const { register, handleSubmit, errors } = useForm();
-  const { login, isLoading, isAuth } = useAuth();
+  const { register, handleSubmit, formState: {errors} } = useForm();
+  const { login, isLoading, isAuth, error } = useAuth();
 
-  // need to pass key
+  // unsure why react query isnt working
   const onSubmit = data => {
     login({
       ...data
@@ -27,6 +27,11 @@ export default function Login() {
     }
   }, [isAuth, history]);
 
+
+  if(isLoading) {
+    return <h1>loading</h1>
+  }
+
   return (
     <Container>
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -39,6 +44,7 @@ export default function Login() {
             required: "Required",
           })}
         />
+        {errors.email && "username or email is required"}
         <Label>Password</Label>
         <Input
           label="Password"
@@ -48,6 +54,7 @@ export default function Login() {
             required: "Required",
           })}
         />
+         {errors.password && "password is required"}
         <Button
           variant="contained"
           color="primary"
@@ -59,8 +66,10 @@ export default function Login() {
           Login
             </Button>
         <Button onClick={goToSignup}>Sign Up</Button>
+        {error && (
+          <p>{error}</p>
+        )}
       </Form>
-
     </Container>
   );
 }

@@ -11,9 +11,9 @@ password: yellow123
 - [X] login 
 - [X] signup
 - [ ] password change
-- [ ] validation login
-- [ ] validation signup 
-- [ ] error messages
+- [X] validation login
+- [X] validation signup 
+- [X] error messages (kinda)
 
  # Organisation
 - [X] create organisation
@@ -29,5 +29,6 @@ password: yellow123
 - [ ] fix bug where only owner of shift can see shift
 - [X] calculate how much hours worked
 - [X] calculate shift cost
+- [ ] convert time into Decimal format 
 - [ ] hide shifts ?????
 - [ ] typescript

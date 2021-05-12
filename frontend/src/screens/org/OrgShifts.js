@@ -133,6 +133,7 @@ export default function OrgShifts(props) {
                                     min={moment()}
                                     defaultValue={moment()}
                                     format="HH:mm"
+                                    tab={1}
                                     readOnly={false}
                                     enableInputClick
                                     onChange={(value) => setStart(value)}
@@ -144,6 +145,7 @@ export default function OrgShifts(props) {
                                     min={moment()}
                                     defaultValue={moment().add(8, 'hours')}
                                     format="HH:mm"
+                                    tab={1}
                                     readOnly={false}
                                     enableInputClick
                                     onChange={(value) => setFinish(value)}
@@ -172,6 +174,7 @@ export default function OrgShifts(props) {
                                     max={moment()}
                                     min={moment()}
                                     defaultValue={moment()}
+                                    tab={1}
                                     format="HH:mm"
                                     readOnly={false}
                                     enableInputClick
@@ -184,6 +187,7 @@ export default function OrgShifts(props) {
                                     min={moment()}
                                     defaultValue={moment().add(8, 'hours')}
                                     format="HH:mm"
+                                    tab={1}
                                     readOnly={false}
                                     enableInputClick
                                     onChange={(value) => setDate(value)}

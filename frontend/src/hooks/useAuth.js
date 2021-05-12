@@ -12,7 +12,7 @@ const Auth = new AuthService();
 export function AuthProvider({ initialState = {}, ...props }) {
   const auth = Auth.getAuth() || {};
   const [authData, setAuthData] = useState();
-  const { user, token } = authData || initialState || {};
+  const { user, token, error } = authData || initialState || {};
 
   useEffect(() => {
     if (auth.token) {
@@ -22,7 +22,7 @@ export function AuthProvider({ initialState = {}, ...props }) {
     // eslint-disable-next-line
   }, [auth.token]);
 
-  const { mutate: loginMutate, isLoading } = useMutation(
+  const { mutate: loginMutate, isLoading, isError, data, reset } = useMutation(
     (data) => axios.post(`${apiEndpoint}/auth/login`, data),
     {
       onSuccess: async (data, variables, contextValue) => {
@@ -35,6 +35,15 @@ export function AuthProvider({ initialState = {}, ...props }) {
         Auth.setAuth(info);
         setAuthData(info);
       },
+
+      // server message
+      onError: (data) => {
+        const info = {
+          error: data.response.data.error
+        };
+        Auth.setAuth(info);
+        setAuthData(info);
+      }
     }
   );
 
@@ -76,6 +85,7 @@ export function AuthProvider({ initialState = {}, ...props }) {
       isAuth: !!token,
       token: token,
       user: user,
+      error: error,
       isLoading: isLoading,
       login: login,
       signup: signup,
