@@ -2,6 +2,11 @@
 
 # Todo
 
+# Login 
+
+email: test@test.com
+password: yellow123
+
  # Auth
 - [X] login 
 - [X] signup
