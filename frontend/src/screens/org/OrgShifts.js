@@ -3,7 +3,7 @@ import { Button, Container, Box } from "../../components";
 import { useQuery, useMutation } from "react-query";
 import { useHistory, useParams } from "react-router-dom";
 import { getShifts, createShifts, deleteShift } from "../../utils/shifts"
-import { getUser, getAllUsers } from "../../utils/users"
+import { getAllUsers } from "../../utils/users"
 import { getOrg } from "../../utils/organisations"
 import { useAuth } from "../../hooks";
 import Table from "../../components/Table/Table"
@@ -68,11 +68,6 @@ export default function OrgShifts(props) {
         const result = await getAllUsers(token)
         setAllUsers(result)
     }
-    async function getMe() {
-        const result = await getUser(token)
-        setMe(result)
-    }
-
 
     async function getOrgName() {
         const result = await getOrg(token, id)
@@ -89,7 +84,6 @@ export default function OrgShifts(props) {
         getTheShifts()
         getAllTheUsers()
         getOrgName()
-        getMe()
     }, []);
 
 
@@ -103,7 +97,7 @@ export default function OrgShifts(props) {
     async function createShift() {
         const result = await mutation.mutateAsync({
             token,
-            me,
+            userId: user.id,
             shiftDate,
             start,
             finish
@@ -112,15 +106,16 @@ export default function OrgShifts(props) {
             setReload(true)
         }
     }
+
     return (
         <Container>
             <Box>
-                <h2>Logged in as : {user}</h2>
+                <h2>Logged in as : {user.name}</h2>
                 <h2>{org.name}: ${org.hourlyRate} per hour</h2>
                 {tdata && tdata.length ? (
                     <Table data={tdata}>
                         <Table.TR>
-                            <Table.TD>{user}</Table.TD>
+                            <Table.TD>{user.name}</Table.TD>
                             <Table.TD>
                                 <MomentInput
                                     max={moment()}
@@ -160,7 +155,7 @@ export default function OrgShifts(props) {
                 ) : (
                     <Table data={initialState}>
                         <Table.TR>
-                            <Table.TD>{user}</Table.TD>
+                            <Table.TD>{user.name}</Table.TD>
                             <Table.TD>
                                 <MomentInput
                                     max={moment()}

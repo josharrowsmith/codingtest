@@ -3,6 +3,7 @@ import { useMutation } from "react-query";
 import axios from "axios";
 import { apiEndpoint } from "../config";
 import { AuthService } from "../utils";
+import { getUser } from "../utils/users"
 
 
 export const AuthContext = createContext({});
@@ -24,10 +25,11 @@ export function AuthProvider({ initialState = {}, ...props }) {
   const { mutate: loginMutate, isLoading } = useMutation(
     (data) => axios.post(`${apiEndpoint}/auth/login`, data),
     {
-      onSuccess: (data, variables, contextValue) => {
+      onSuccess: async (data, variables, contextValue) => {
+        const user = await getUser(data.data.sessionId)
         const info = {
           token: data?.data?.sessionId ?? "",
-          user: variables.email
+          user
         };
 
         Auth.setAuth(info);
@@ -40,11 +42,11 @@ export function AuthProvider({ initialState = {}, ...props }) {
   const { mutate: signupMutate } = useMutation(
     (data) => axios.post(`${apiEndpoint}/auth/signup`, data),
     {
-      onSuccess: (data, variables, contextValue) => {
-        console.log("yes")
+      onSuccess: async (data, variables, contextValue) => {
+        const user = await getUser(data.data.sessionId)
         const info = {
           token: data?.data?.sessionId ?? "",
-          user: variables.email
+          user
         };
         Auth.setAuth(info);
         setAuthData(info);

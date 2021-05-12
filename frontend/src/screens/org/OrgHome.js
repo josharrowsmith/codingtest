@@ -52,7 +52,7 @@ export default function OrgAll(props) {
 
     return (
         <>
-            <h2>Logged in as : {user}</h2>
+            <h2>Logged in as : {user.name}</h2>
             <h1>{org.name}</h1>
             <Row>
                 <Button onClick={() => shiftsHandler()}>View Shifts</Button>

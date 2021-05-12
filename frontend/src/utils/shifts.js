@@ -14,7 +14,7 @@ export const getShifts = async (token) => {
 
 export const createShifts = async (data) => {
     const shift = {
-        userId: data.me,
+        userId: data.userId,
         date: data.shiftDate,
         start: data.start,
         finish: data.finish

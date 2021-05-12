@@ -48,8 +48,8 @@ export default function OrgAll() {
 
     return (
         <Container>
-            <h1>Logged in as : {user}</h1>
-            <h1>You aren't a memeber of any organisations.</h1>
+            <h1>Logged in as : {user.name}</h1>
+            <h1>You aren't a memeber of any organisation</h1>
             <ul>
                 {data.map((i) =>
                     <Row key={i.id}>
