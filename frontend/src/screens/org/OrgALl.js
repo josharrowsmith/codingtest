@@ -35,7 +35,7 @@ export default function OrgAll() {
                 basename: "organisation",
                 forceRefresh: true,
             });
-            historyBrowser.push('/organisation');
+            historyBrowser.push('/');
         }
     }
 
